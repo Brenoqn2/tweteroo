@@ -87,8 +87,6 @@ app.post("/sign-up", (req, res) => {
 });
 
 app.post("/tweets", (req, res) => {
-  console.log(req.body.tweet);
-  console.log(req.headers.user);
   if (!req.headers.user || !req.body.tweet) {
     res.status(400).send("Todos os campos são obrigatórios!");
   } else {
@@ -98,17 +96,20 @@ app.post("/tweets", (req, res) => {
 });
 
 app.get("/tweets", (req, res) => {
+  const page = req.query.page - 1;
   let lastTweets = [];
   for (let i = 0; i < tweets.length && i < 10; i++) {
-    const tweet = tweets[tweets.length - 1 - i];
-    const avatar = usuarios.find(
-      (usuario) => usuario.username === tweet.username
-    ).avatar;
-    lastTweets.push({
-      username: tweet.username,
-      avatar: avatar,
-      tweet: tweet.tweet,
-    });
+    if (tweets.length - 1 - i - 10 * page >= 0) {
+      const tweet = tweets[tweets.length - 1 - i - 10 * page];
+      const avatar = usuarios.find(
+        (usuario) => usuario.username === tweet.username
+      ).avatar;
+      lastTweets.push({
+        username: tweet.username,
+        avatar: avatar,
+        tweet: tweet.tweet,
+      });
+    }
   }
   res.send(lastTweets);
 });
