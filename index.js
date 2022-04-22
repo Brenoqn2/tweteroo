@@ -82,7 +82,7 @@ app.post("/sign-up", (req, res) => {
     res.status(400).send("Todos os campos são obrigatórios!");
   } else {
     usuarios.push(req.body);
-    res.send("OK");
+    res.status(201).send("OK");
   }
 });
 
@@ -91,7 +91,7 @@ app.post("/tweets", (req, res) => {
     res.status(400).send("Todos os campos são obrigatórios!");
   } else {
     tweets.push(req.body);
-    res.send("OK");
+    res.status(201).send("OK");
   }
 });
 
