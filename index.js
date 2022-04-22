@@ -87,10 +87,12 @@ app.post("/sign-up", (req, res) => {
 });
 
 app.post("/tweets", (req, res) => {
-  if (!req.body.username || !req.body.tweet) {
+  console.log(req.body.tweet);
+  console.log(req.headers.user);
+  if (!req.headers.user || !req.body.tweet) {
     res.status(400).send("Todos os campos são obrigatórios!");
   } else {
-    tweets.push(req.body);
+    tweets.push({ username: req.headers.user, tweet: req.body.tweet });
     res.status(201).send("OK");
   }
 });
