@@ -111,4 +111,23 @@ app.get("/tweets", (req, res) => {
   res.send(lastTweets);
 });
 
+app.get("/tweets/:username", (req, res) => {
+  const username = req.params.username;
+  const tweetsFiltrados = tweets.filter((tweet) => {
+    return tweet.username === username;
+  });
+  let userTweets = [];
+  tweetsFiltrados.forEach((tweet) => {
+    const avatar = usuarios.find(
+      (usuario) => usuario.username === tweet.username
+    ).avatar;
+    userTweets.push({
+      username: tweet.username,
+      avatar: avatar,
+      tweet: tweet.tweet,
+    });
+  });
+  res.send(userTweets);
+});
+
 app.listen(PORT);
